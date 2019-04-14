@@ -15,6 +15,7 @@ steps:
 - name: PHPUnit Test
   image: php:7.3-rc-cli-alpine
   commands:
+  - cp .env.test .env
   - php artisan key:generate
   - vendor/bin/phpunit --configuration phpunit.xml
   
