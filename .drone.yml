@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: build-test
+name: Backend Test
 
 platform:
   os: linux
@@ -19,6 +19,20 @@ steps:
   - php artisan key:generate
   - vendor/bin/phpunit #--configuration phpunit.xml
   
+---
+kind: pipeline
+name: Frontend Test
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: build
+  image: node:carbon-alpine
+  commands:
+    - npm i
+    - npm test
 # - name: Slack
 #   image: plugins/slack
 #   when:
