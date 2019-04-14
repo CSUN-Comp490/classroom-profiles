@@ -8,7 +8,7 @@ platform:
 
 steps:
 - name: build
-  image: composer
+  image: composer:latest
   commands:
   - composer install --no-interaction --ignore-platform-reqs --no-plugins --no-scripts
 
@@ -17,59 +17,32 @@ steps:
   commands:
   - cp .env.test .env
   - php artisan key:generate
-  - vendor/bin/phpunit --configuration phpunit.xml
+  - vendor/bin/phpunit #--configuration phpunit.xml
   
-- name: Slack
-  image: plugins/slack
-  when:
-  status: [ success, failure ]
-  settings:
-    webhook:
-      from_secret: slack_webhook
-    channel: classrooms-drone
-    template: >
-      {{#success build.status}}
-        Build {{build.number}} succeeded. Good job.
-      {{else}}
-        Build {{build.number}} failed. Fix me please.
-      {{/success}}
-
-trigger:
-  event:
-  - pull_request
----
-kind: pipeline
-name: deploy dev
-steps:
-
-- name: Grab some important files
-  image: mesosphere/aws-cli
-  environment:
-     AWS_ACCESS_KEY_ID:
-       from_secret: aws_access_key_id
-     AWS_SECRET_ACCESS_KEY:
-       from_secret: aws_secret_access_key
-     AWS_DEFAULT_REGION: us-west-2
-  commands:
-    - aws s3 cp s3://matabit/dev/dev.env .env
-    - aws s3 cp s3://matabit/dev/apache.conf .
-
-# - name: Deploy Image  
-#   image: plugins/ecr
+# - name: Slack
+#   image: plugins/slack
+#   when:
+#   status: [ success, failure ]
 #   settings:
-#     tags:
-#       - dev
-#     region: us-west-2
-#     access_key: 
-#       from_secret: aws_access_key_id
-#     secret_key: 
-#       from_secret: aws_secret_access_key
-#     repo: 
-#       from_secret: repo
-#     registry: 
-#       from_secret: registry
+#     webhook:
+#       from_secret: slack_webhook
+#     channel: classrooms-drone
+#     template: >
+#       {{#success build.status}}
+#         Build {{build.number}} succeeded. Good job.
+#       {{else}}
+#         Build {{build.number}} failed. Fix me please.
+#       {{/success}}
 
-# - name: Update ECS cluster service (dev)
+# trigger:
+#   event:
+#   - pull_request
+# ---
+# kind: pipeline
+# name: deploy dev
+# steps:
+
+# - name: Grab some important files
 #   image: mesosphere/aws-cli
 #   environment:
 #      AWS_ACCESS_KEY_ID:
@@ -78,47 +51,20 @@ steps:
 #        from_secret: aws_secret_access_key
 #      AWS_DEFAULT_REGION: us-west-2
 #   commands:
-#     - aws ecs update-service --cluster matabit_cluster --service dev-service --force-new-deployment
+#     - aws s3 cp s3://matabit/dev/dev.env .env
+#     - aws s3 cp s3://matabit/dev/apache.conf .
 
-trigger:
-  branch:
-  - dev
-  event:
-  - push
----
-kind: pipeline
-name: deploy prod
-steps:
+# trigger:
+#   branch:
+#   - dev
+#   event:
+#   - push
+# ---
+# kind: pipeline
+# name: deploy prod
+# steps:
 
-- name: Grab some important files
-  image: mesosphere/aws-cli
-  environment:
-     AWS_ACCESS_KEY_ID:
-       from_secret: aws_access_key_id
-     AWS_SECRET_ACCESS_KEY:
-       from_secret: aws_secret_access_key
-     AWS_DEFAULT_REGION: us-west-2
-  commands:
-    - aws s3 cp s3://matabit/prod/prod.env .env
-    - aws s3 cp s3://matabit/prod/apache.conf .
-
-# - name: Deploy Image  
-#   image: plugins/ecr
-#   settings:
-#     tags:
-#       - prod
-#       - latest
-#     region: us-west-2
-#     access_key: 
-#       from_secret: aws_access_key_id
-#     secret_key: 
-#       from_secret: aws_secret_access_key
-#     repo: 
-#       from_secret: repo
-#     registry: 
-#       from_secret: registry
-
-# - name: Update ECS cluster service (prod)
+# - name: Grab some important files
 #   image: mesosphere/aws-cli
 #   environment:
 #      AWS_ACCESS_KEY_ID:
@@ -127,11 +73,12 @@ steps:
 #        from_secret: aws_secret_access_key
 #      AWS_DEFAULT_REGION: us-west-2
 #   commands:
-#     - aws ecs update-service --cluster matabit_cluster --service prod-service --force-new-deployment
+#     - aws s3 cp s3://matabit/prod/prod.env .env
+#     - aws s3 cp s3://matabit/prod/apache.conf .
 
-trigger:
-  branch:
-  - master
-  event:
-  - push
+# trigger:
+#   branch:
+#   - master
+#   event:
+#   - push
 ...
