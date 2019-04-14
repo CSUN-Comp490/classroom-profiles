@@ -1,7 +1,7 @@
 <?php
 
 namespace Tests\Unit;
-
+$this->disableExceptionHandling();
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
