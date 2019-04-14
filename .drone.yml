@@ -12,22 +12,11 @@ steps:
   commands:
   - composer install --no-interaction --ignore-platform-reqs --no-plugins --no-scripts
 
-- name: Grab some important files
-  image: mesosphere/aws-cli
-  environment:
-     AWS_ACCESS_KEY_ID:
-       from_secret: aws_access_key_id
-     AWS_SECRET_ACCESS_KEY:
-       from_secret: aws_secret_access_key
-     AWS_DEFAULT_REGION: us-west-2
-  commands:
-    - aws s3 cp s3://matabit/dev/dev.env .env
-
 - name: PHPUnit Test
   image: php:7.3-rc-cli-alpine
   commands:
   - php artisan key:generate
-  - vendor/bin/phpunit #--configuration phpunit.xml
+  - vendor/bin/phpunit --configuration phpunit.xml
   
 ---
 kind: pipeline
@@ -65,48 +54,4 @@ steps:
 # trigger:
 #   event:
 #   - pull_request
-# ---
-# kind: pipeline
-# name: deploy dev
-# steps:
-
-# - name: Grab some important files
-#   image: mesosphere/aws-cli
-#   environment:
-#      AWS_ACCESS_KEY_ID:
-#        from_secret: aws_access_key_id
-#      AWS_SECRET_ACCESS_KEY:
-#        from_secret: aws_secret_access_key
-#      AWS_DEFAULT_REGION: us-west-2
-#   commands:
-#     - aws s3 cp s3://matabit/dev/dev.env .env
-#     - aws s3 cp s3://matabit/dev/apache.conf .
-
-# trigger:
-#   branch:
-#   - dev
-#   event:
-#   - push
-# ---
-# kind: pipeline
-# name: deploy prod
-# steps:
-
-# - name: Grab some important files
-#   image: mesosphere/aws-cli
-#   environment:
-#      AWS_ACCESS_KEY_ID:
-#        from_secret: aws_access_key_id
-#      AWS_SECRET_ACCESS_KEY:
-#        from_secret: aws_secret_access_key
-#      AWS_DEFAULT_REGION: us-west-2
-#   commands:
-#     - aws s3 cp s3://matabit/prod/prod.env .env
-#     - aws s3 cp s3://matabit/prod/apache.conf .
-
-# trigger:
-#   branch:
-#   - master
-#   event:
-#   - push
 ...
