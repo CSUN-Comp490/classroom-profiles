@@ -22,7 +22,7 @@ steps:
      AWS_DEFAULT_REGION: us-west-2
   commands:
     - aws s3 cp s3://matabit/dev/dev.env .env
-    
+
 - name: PHPUnit Test
   image: php:7.3-rc-cli-alpine
   commands:
@@ -41,7 +41,7 @@ steps:
 - name: Build
   image: node:carbon-alpine
   commands:
-    - npm -i
+    - npm i
 
 - name: Test
   image: node:carbon-alpine
