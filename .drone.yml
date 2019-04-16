@@ -13,7 +13,7 @@ steps:
   - composer install --no-interaction --ignore-platform-reqs --no-plugins --no-scripts
 
 - name: PHPUnit Test
-  image: php:7.3-rc-cli-alpine
+  image: ainlavong/cp-test
   commands:
   - cp .env.test .env
   - php artisan key:generate
