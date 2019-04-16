@@ -13,12 +13,20 @@ steps:
   - composer install --no-interaction --ignore-platform-reqs --no-plugins --no-scripts
 
 - name: PHPUnit Test
-  image: ainlavong/cp-test
+  image: ainlavong/cp-test:latest
   commands:
   - cp .env.test .env
   - php artisan key:generate
   - vendor/bin/phpunit --configuration phpunit.xml
-  
+
+services:
+- name: database
+  image: mysql
+  ports:
+  - 3306
+  environment:
+    MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    MYSQL_DATABASE: test
 ---
 kind: pipeline
 name: Frontend Test
