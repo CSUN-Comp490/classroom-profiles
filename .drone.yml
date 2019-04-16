@@ -12,6 +12,12 @@ steps:
   commands:
   - composer install --no-interaction --ignore-platform-reqs --no-plugins --no-scripts
 
+- name: test??
+  image: mysql
+  commands:
+  - sleep 15
+  - mysql -u root -h database
+
 - name: PHPUnit Test
   image: ainlavong/cp-test:latest
   commands:
