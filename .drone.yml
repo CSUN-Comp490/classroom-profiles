@@ -17,6 +17,7 @@ steps:
   commands:
   - cp .env.test .env
   - php artisan key:generate
+  - sleep 15
   - vendor/bin/phpunit --configuration phpunit.xml
 
 services:
