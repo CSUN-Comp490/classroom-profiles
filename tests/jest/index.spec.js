@@ -1,12 +1,5 @@
-import { mount } from '@vue/test-utils'
-import ExampleComponent from '../../resources/js/components/ExampleComponent.vue'
 
-test('it works', () => {
+test('Test begin', () => {
   expect(1 + 1).toBe(2)
 })
 
-test('should mount without crashing', () => {
-  const wrapper = mount(ExampleComponent)
-
-  expect(wrapper).toMatchSnapshot()
-})
