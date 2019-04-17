@@ -16,14 +16,13 @@ steps:
   image: mysql
   commands:
   - sleep 15
-  - mysql -u root -h database
+  - mysql -u root -h database --execute="SELECT VERSION();"
 
 - name: PHPUnit Test
   image: ainlavong/cp-test:latest
   commands:
   - cp .env.test .env
   - php artisan key:generate
-  - sleep 15
   - vendor/bin/phpunit --configuration phpunit.xml
 
 services:
