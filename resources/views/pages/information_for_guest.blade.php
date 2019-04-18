@@ -31,16 +31,17 @@
         ?>
     </div>
     </div>
-
-                <div class="container nav-fill">
-                    <ul class="nav nav-metaphor">
-                        <li class="nav-item flex-fill text-center "> <a class="nav-link active " href="/equip/{{$data['roomData']->Building_Room}}">Equipment</a> </li>
-                <li class="nav-item flex-fill text-center"> <a class="nav-link" href="/image/{{$data['roomData']->Building_Room}}">Images</a> </li>
-            </ul>
-        </div>
-
+    
+    <div class="container nav-fill">
+        <ul class="nav nav-metaphor">
+            <li class="nav-item flex-fill text-center tab-content shadow"> 
+                <a class="nav-link active " href="/equip/{{$data['roomData']->Building_Room}}">Equipment</a> </li>
+            <li class="nav-item flex-fill text-center"> <a class="nav-link" href="/image/{{$data['roomData']->Building_Room}}">Images</a> </li>
+        </ul>
+    </div>
+   
         <div class="container">
-            <table class="table table--responsive table--striped table--bordered table--padded table--hover">
+            <table class="mytable">
                 <thead>
                 <tr>
                     <th>Equipment</th>
@@ -112,5 +113,36 @@
             <equipmentdata :equip="{{$data['mainData']}}"></equipmentdata>
         </div>
 
+<style>
+    thead:before {
+    content: "-";
+    display: block;
+    line-height: 1em;
+    color: transparent;
+    }
 
+    tbody tr:hover {background-color:#f5f5f5;}
+ 
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    thead tr {
+    border-bottom: 3px solid #dee2e6;
+    }
+
+    .shadow {
+        -webkit-box-shadow: 0px 10px 4px -2px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 10px 4px -2px rgba(0,0,0,0.75);
+        box-shadow: 0px 10px 4px -2px rgba(0,0,0,0.75);
+    }
+    .tab-pane{ padding:10px;}
+</style>
 @endsection
