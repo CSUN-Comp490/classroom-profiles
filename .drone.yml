@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: Backend Test
+name: backend-test
 
 platform:
   os: linux
@@ -27,10 +27,13 @@ steps:
       from_secret: DB_USERNAME
     DB_PASSWORD:
       from_secret: DB_PASSWORD
-
+      
+trigger:
+  event:
+  - pull_request
 ---
 kind: pipeline
-name: Frontend Test
+name: frontend-test
 
 platform:
   os: linux
@@ -46,22 +49,33 @@ steps:
   image: node:carbon-alpine
   commands:
     - npm test
-# - name: Slack
-#   image: plugins/slack
-#   when:
-#   status: [ success, failure ]
-#   settings:
-#     webhook:
-#       from_secret: slack_webhook
-#     channel: classrooms-drone
-#     template: >
-#       {{#success build.status}}
-#         Build {{build.number}} succeeded. Good job.
-#       {{else}}
-#         Build {{build.number}} failed. Fix me please.
-#       {{/success}}
+    
+trigger:
+  event:
+  - pull_request
+---
+kind: pipeline
+name: slack
+steps:
+- name: Slack
+  image: plugins/slack
+  when:
+  status: [ success, failure ]
+  settings:
+    webhook:
+      from_secret: slack_webhook
+    channel: classrooms-drone
+    template: >
+      {{#success build.status}}
+        Build {{build.number}} succeeded. Good job.
+      {{else}}
+        Build {{build.number}} failed. Fix me please.
+      {{/success}}
 
-# trigger:
-#   event:
-#   - pull_request
-...
+trigger:
+  status:
+  - success
+
+depends_on:
+- backend-test
+- frontend-test
