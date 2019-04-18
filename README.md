@@ -2,7 +2,7 @@
 [![Build Status](https://cloud.drone.io/api/badges/CSUN-Comp490/classroom-profiles/status.svg?branch=dev)](https://cloud.drone.io/CSUN-Comp490/classroom-profiles)
 
 ## How to get started with the project
-COMP490/CIT480 Senior Design project. This application will navigate students to their respective classes based on their schedule and more!
+COMP491/CIT481 Senior Design project. This application will navigate students to their respective classes based on their schedule and more!
 
 ## How to get started with the project
 
